@@ -1,0 +1,13 @@
+def reverse_string(s):
+    # Базовый случай: пустая строка остается пустой
+    if len(s) <= 1:
+        return s
+    
+    # Рекурсивный случай: добавляем последний символ перед остальными символами
+    else:
+        return s[-1] + reverse_string(s[:-1])
+
+# Тестируем функцию
+input_str = input("Введите строку для переворота: ")
+reversed_str = reverse_string(input_str)
+print(f"Перевёрнутая строка: {reversed_str}")
