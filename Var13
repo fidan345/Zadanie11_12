@@ -1,0 +1,68 @@
+def is_safe(board, row, col):
+    """Проверяет, безопасно ли размещать ферзя в указанной ячейке."""
+    # Проверка столбца сверху вниз
+    for i in range(row):
+        if board[i][col]:
+            return False
+    
+    # Проверка левой верхней диагонали
+    x, y = row, col
+    while x >= 0 and y >= 0:
+        if board[x][y]:
+            return False
+        x -= 1
+        y -= 1
+    
+    # Проверка правой верхней диагонали
+    x, y = row, col
+    while x >= 0 and y < len(board):
+        if board[x][y]:
+            return False
+        x -= 1
+        y += 1
+    
+    return True
+
+
+def solve_n_queens_util(board, row):
+    """Рекурсивная вспомогательная функция для размещения ферзей."""
+    size = len(board)
+    
+    # Если достигли конца доски, записываем найденное решение
+    if row == size:
+        solution = []
+        for r in range(size):
+            line = ''.join(['Q' if cell else '.' for cell in board[r]])
+            solution.append(line)
+        solutions.append(solution)
+        return
+    
+    # Пробуем поставить ферзя в каждой колонке текущего ряда
+    for col in range(size):
+        if is_safe(board, row, col):
+            board[row][col] = True
+            
+            # Переходим к следующему ряду
+            solve_n_queens_util(board, row + 1)
+            
+            # Откатываем изменение, чтобы попробовать следующую колонку
+            board[row][col] = False
+
+
+def solve_n_queens(n):
+    """Основная функция для решения задачи N ферзей"""
+    global solutions
+    solutions = []  # Список решений
+    board = [[False]*n for _ in range(n)]  # Начальная доска
+    solve_n_queens_util(board, 0)  # Стартуем с первой строки
+    return solutions
+
+
+if __name__ == "__main__":
+    N = 8
+    results = solve_n_queens(N)
+    print(f"Количество решений для {N}-ферзей: {len(results)}")
+    for idx, sol in enumerate(results[:5], start=1):  # Вывод первых пяти решений
+        print(f"\nРешение №{idx}:")
+        for line in sol:
+            print(line)
