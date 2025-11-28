@@ -1,0 +1,22 @@
+def generate_binary_strings(n):
+    def helper(current, length):
+        # Базовый случай: если длина достигла n, выводим строку
+        if length == n:
+            print(''.join(current))
+            return
+        
+        # Добавляем '0' и продолжаем рекурсию
+        current.append('0')
+        helper(current, length + 1)
+        current.pop()  # Убираем '0', восстанавливая состояние
+        
+        # Добавляем '1' и продолжаем рекурсию
+        current.append('1')
+        helper(current, length + 1)
+        current.pop()  # Убираем '1', восстанавливая состояние
+    
+    # Запускаем рекурсию с пустой строкой
+    helper([], 0)
+
+# Пример использования
+generate_binary_strings(3)
